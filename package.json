@@ -6,7 +6,7 @@
   "main-es": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:jidomaps/react-native-web-maps.git"
+    "url": "git@github.com:jidomaps/react-native-web-maps.git#master"
   },
   "author": {
     "name": "Aurore Malherbes",
