@@ -35,13 +35,7 @@ class MapView extends Component {
   animateToRegion(coordinates, _zoom = this.state.zoom) {
     this.map.panTo({ lat: coordinates.lat, lng: coordinates.lng });
 
-    const { zoom } = this.state;
-    const _newZoom = this.state.zoom;
-
-    _newZoom.latitude = _zoom.latitude;
-    _newZoom.longitude = _zoom.longitude;
-
-    this.map.zoom = _newZoom;
+    this.map.zoom = _zoom;
     // this.setState({ center: coordinates });
     // this.setState({ zoom });
   }
