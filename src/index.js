@@ -32,9 +32,9 @@ class MapView extends Component {
     this.setState({ center: camera.center });
   }
 
-  animateToRegion(coordinates, zoom) {
+  animateToRegion(coordinates, zoom = this.state.zoom) {
     this.map.panTo({ lat: coordinates.lat, lng: coordinates.lng });
-    this.map.setZoom(zoom);
+    this.setState({ zoom });
   }
 
   getBounds = () => {
