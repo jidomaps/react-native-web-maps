@@ -38,6 +38,10 @@ class MapView extends Component {
     });
   }
 
+  getBounds(){
+    return this.map.getBounds();
+  }
+
   onDragEnd = () => {
     const { onRegionChangeComplete } = this.props;
     if (this.map && onRegionChangeComplete) {
