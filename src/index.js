@@ -38,9 +38,10 @@ class MapView extends Component {
   }
 
   animateToRegion(coordinates) {
-    this.setState({
-      center: { lat: coordinates.latitude, lng: coordinates.longitude },
-    });
+    this.map.panTo({ lat: coordinates.latitude, lng: coordinates.longitude });
+    // this.setState({
+    //   center: { lat: coordinates.latitude, lng: coordinates.longitude },
+    // });
   }
 
   getBounds = () => {
