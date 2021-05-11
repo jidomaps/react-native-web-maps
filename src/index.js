@@ -53,6 +53,7 @@ class MapView extends Component {
         longitude: center.lng(),
         latitudeDelta: zoom.latitudeDelta,
         longitudeDelta: zoom.longitudeDelta,
+        testNewDist: 'hello world',
       });
     }
   };
