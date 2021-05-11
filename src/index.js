@@ -5,6 +5,11 @@ import Marker from './Marker';
 import Polyline from './Polyline';
 import Callout from './Callout';
 
+export const ViewportBounds = {
+    ne: Number,
+    sw: Number,
+}
+
 const GoogleMapContainer = withGoogleMap(props => (
   <GoogleMap {...props} ref={props.handleMapMounted} />
 ));
@@ -40,7 +45,16 @@ class MapView extends Component {
 
   getBounds = () => {
     return this.map.getBounds();
-  }
+  };
+
+  getViewportBounds = () => {
+    const _bounds = this.map.getBounds();
+
+    return {
+      ne: _bounds.getNorthEast(),
+      sw: _bounds.getSouthWest(),
+    };
+  };
 
   onDragEnd = () => {
     const { onRegionChangeComplete } = this.props;
