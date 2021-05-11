@@ -5,11 +5,6 @@ import Marker from './Marker';
 import Polyline from './Polyline';
 import Callout from './Callout';
 
-export const ViewportBounds = {
-    ne: Number,
-    sw: Number,
-}
-
 const GoogleMapContainer = withGoogleMap(props => (
   <GoogleMap {...props} ref={props.handleMapMounted} />
 ));
@@ -33,15 +28,11 @@ class MapView extends Component {
   };
 
   animateCamera(camera) {
-    this.setState({ zoom: camera.zoom });
-    this.setState({ center: camera.center });
+    this.map.setZoom(camera.zoom);
   }
 
   animateToRegion(coordinates) {
-    this.map.panTo({ lat: coordinates.latitude, lng: coordinates.longitude });
-    // this.setState({
-    //   center: { lat: coordinates.latitude, lng: coordinates.longitude },
-    // });
+    this.map.panTo({ lat: coordinates.lat, lng: coordinates.lng });
   }
 
   getBounds = () => {
@@ -68,7 +59,6 @@ class MapView extends Component {
         longitude: center.lng(),
         latitudeDelta: zoom.latitudeDelta,
         longitudeDelta: zoom.longitudeDelta,
-        testNewDist: 'hello world',
       });
     }
   };
