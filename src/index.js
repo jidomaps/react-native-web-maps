@@ -32,9 +32,16 @@ class MapView extends Component {
     this.setState({ center: camera.center });
   }
 
-  animateToRegion(coordinates, zoom = this.state.zoom) {
+  animateToRegion(coordinates, _zoom = this.state.zoom) {
     this.map.panTo({ lat: coordinates.lat, lng: coordinates.lng });
-    this.map.zoom = zoom;
+
+    const { zoom } = this.state;
+    const _newZoom = this.state.zoom;
+
+    _newZoom.latitude = _zoom.latitude;
+    _newZoom.longitude = _zoom.longitude;
+
+    this.map.zoom = _newZoom;
     // this.setState({ center: coordinates });
     // this.setState({ zoom });
   }
@@ -61,8 +68,6 @@ class MapView extends Component {
       onRegionChangeComplete({
         latitude: 100,
         longitude: center.lng(),
-        latitudeDelta: zoom.latitudeDelta,
-        longitudeDelta: zoom.longitudeDelta,
       });
     }
   };
@@ -72,21 +77,7 @@ class MapView extends Component {
     const { center } = this.state;
     const style = this.props.style || styles.container;
 
-    const googleMapProps = center
-      ? { center }
-      : region
-      ? {
-          center: {
-            lat: region.latitude,
-            lng: region.longitude,
-          },
-        }
-      : {
-          defaultCenter: {
-            lat: initialRegion.latitude,
-            lng: initialRegion.longitude,
-          },
-        };
+    const googleMapProps = {};
     const zoom =
       defaultZoom ||
       (region && region.latitudeDelta
