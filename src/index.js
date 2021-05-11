@@ -38,7 +38,7 @@ class MapView extends Component {
     });
   }
 
-  getBounds(){
+  getBounds = () => {
     return this.map.getBounds();
   }
 
