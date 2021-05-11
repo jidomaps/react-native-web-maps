@@ -44,11 +44,15 @@ class MapView extends Component {
 
   onDragEnd = () => {
     const { onRegionChangeComplete } = this.props;
+    const { zoom } = this.state;
+
     if (this.map && onRegionChangeComplete) {
       const center = this.map.getCenter();
       onRegionChangeComplete({
-        latitude: center.lat(),
+        latitude: 100,
         longitude: center.lng(),
+        latitudeDelta: zoom.latitudeDelta,
+        longitudeDelta: zoom.longitudeDelta,
       });
     }
   };
