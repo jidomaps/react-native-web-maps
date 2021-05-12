@@ -53,11 +53,11 @@ class MapView extends Component {
     const { onRegionChangeComplete } = this.props;
 
     if (this.map && onRegionChangeComplete) {
-      const center = this.map.region;
+      const center = this.map.getCenter();
       const zoom = this.map.getZoom();
       onRegionChangeComplete({
-        latitude: center.lat(),
-        longitude: center.lng(),
+        lat: center.lat(),
+        lng: center.lng(),
         zoom,
       });
 
