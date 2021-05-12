@@ -23,7 +23,7 @@ class MapViewMarker extends Component {
         title={description ? `${title}\n${description}` : title}
         position={{ lat: coordinate.latitude, lng: coordinate.longitude }}
         onClick={onPress}>
-        {this.state.isOpen && childrenWithProps}
+        {this.state.isOpen && childrenWithProps && { childrenWithProps }}
       </Marker>
     );
   }

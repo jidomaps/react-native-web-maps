@@ -43,7 +43,6 @@ class MapView extends Component {
 
   getViewportBounds = () => {
     const _bounds = this.map.getBounds();
-
     return {
       ne: _bounds.getNorthEast(),
       sw: _bounds.getSouthWest(),
@@ -52,12 +51,11 @@ class MapView extends Component {
 
   onDragEnd = () => {
     const { onRegionChangeComplete } = this.props;
-    const { zoom } = this.state;
 
     if (this.map && onRegionChangeComplete) {
       const center = this.map.getCenter();
       onRegionChangeComplete({
-        latitude: 100,
+        latitude: center.lat(),
         longitude: center.lng(),
       });
     }
@@ -65,7 +63,6 @@ class MapView extends Component {
 
   render() {
     const { region, initialRegion, onRegionChange, onPress, options, defaultZoom } = this.props;
-    const { center } = this.state;
     const style = this.props.style || styles.container;
 
     const googleMapProps = {};
@@ -88,7 +85,7 @@ class MapView extends Component {
           }}
           {...googleMapProps}
           onDragStart={onRegionChange}
-          onIdle={this.onDragEnd}
+          onDragEnd={this.onDragEnd}
           defaultZoom={zoom}
           onClick={onPress}
           options={options}>
