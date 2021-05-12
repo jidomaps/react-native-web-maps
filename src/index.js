@@ -54,12 +54,14 @@ class MapView extends Component {
 
     if (this.map && onRegionChangeComplete) {
       const center = this.map.getCenter();
+      const zoom = this.map.getZoom();
       onRegionChangeComplete({
         latitude: center.lat(),
         longitude: center.lng(),
+        zoom,
       });
 
-      this.setState({ center, zoom: this.map.getZoom() });
+      this.setState({ center, zoom });
     }
   };
 
