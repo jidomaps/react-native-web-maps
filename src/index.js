@@ -49,7 +49,7 @@ class MapView extends Component {
     };
   };
 
-  onDragEnd = () => {
+  onMapViewChanged = () => {
     const { onRegionChangeComplete } = this.props;
 
     if (this.map && onRegionChangeComplete) {
@@ -74,7 +74,7 @@ class MapView extends Component {
   }
 
   render() {
-    const { region, initialRegion, onRegionChange, onPress, options, defaultZoom } = this.props;
+    const { region, initialRegion, onRegionChange, onPress, options, defaultZoom, zoom } = this.props;
     const style = this.props.style || styles.container;
     const { center } = this.state;
 
@@ -107,12 +107,12 @@ class MapView extends Component {
           containerElement={<div style={{ height: '100%' }} />}
           mapElement={<div style={{ height: '100%' }} />}
           onZoomChanged={() => {
-            // this.setState({ zoom: this.map.getZoom() });
-            this.onDragEnd();
+            this.onMapViewChanged();
           }}
+          zoom={zoom}
           {...googleMapProps}
           onDragStart={onRegionChange}
-          onDragEnd={this.onDragEnd}
+          onDragEnd={this.onMapViewChanged}
           defaultZoom={defaultZoom}
           onClick={onPress}
           options={options}>
