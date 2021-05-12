@@ -53,7 +53,7 @@ class MapView extends Component {
     const { onRegionChangeComplete } = this.props;
 
     if (this.map && onRegionChangeComplete) {
-      const center = this.map.getCenter();
+      const center = this.map.region;
       const zoom = this.map.getZoom();
       onRegionChangeComplete({
         latitude: center.lat(),
@@ -101,13 +101,6 @@ class MapView extends Component {
             lng: initialRegion.longitude,
           },
         };
-    // const zoom =
-    //   defaultZoom || (region && region.latitudeDelta)
-    //     ? Math.round(Math.log(360 / region.latitudeDelta) / Math.LN2)
-    //     : initialRegion && initialRegion.latitudeDelta
-    //     ? Math.round(Math.log(360 / initialRegion.latitudeDelta) / Math.LN2)
-    //     : 15;
-    // googleMapProps['zoom'] = this.state.zoom ? this.state.zoom : zoom;
     return (
       <View style={style}>
         <GoogleMapContainer
@@ -117,12 +110,11 @@ class MapView extends Component {
           onZoomChanged={() => {
             this.onMapViewChanged();
           }}
-          // {...googleMapProps}
+          {...googleMapProps}
           onDragStart={onRegionChange}
           onDragEnd={this.onMapViewChanged}
           defaultZoom={defaultZoom}
           zoom={zoom}
-          center={center}
           onClick={onPress}
           options={options}>
           {this.props.children}
