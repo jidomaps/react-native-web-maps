@@ -95,7 +95,8 @@ class MapView extends Component {
           onZoomChanged={() => {
             this.onMapViewChanged();
           }}
-          center={region}
+          center={center}
+          region={region}
           onDragStart={onRegionChange}
           onDragEnd={this.onMapViewChanged}
           defaultZoom={defaultZoom}
