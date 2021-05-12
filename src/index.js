@@ -86,9 +86,10 @@ class MapView extends Component {
       options,
       defaultZoom,
       zoom,
-      center,
     } = this.props;
     const style = this.props.style || styles.container;
+
+    const { center } = this.state;
 
     return (
       <View style={style}>
