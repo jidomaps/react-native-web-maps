@@ -59,7 +59,7 @@ class MapView extends Component {
         longitude: center.lng(),
       });
 
-      this.setState({ center });
+      this.setState({ center, zoom: this.map.getZoom() });
     }
   };
 
