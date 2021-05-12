@@ -98,6 +98,7 @@ class MapView extends Component {
           containerElement={<div style={{ height: '100%' }} />}
           mapElement={<div style={{ height: '100%' }} />}
           onZoomChanged={() => {
+            this.onDragEnd();
             this.setState({ zoom: this.map.getZoom() });
           }}
           {...googleMapProps}
