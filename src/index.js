@@ -89,7 +89,7 @@ class MapView extends Component {
         : initialRegion && initialRegion.latitudeDelta
         ? Math.round(Math.log(360 / initialRegion.latitudeDelta) / Math.LN2)
         : 15;
-    const _zoom = this.map ? this.map.getZoom() : 0;
+    const _zoom = this.map ? this.map.getZoom() : 15;
     googleMapProps['zoom'] = this.state.zoom ? this.state.zoom : _zoom;
     return (
       <View style={style}>
@@ -104,7 +104,6 @@ class MapView extends Component {
           {...googleMapProps}
           onDragStart={onRegionChange}
           onDragEnd={this.onDragEnd}
-          defaultZoom={15}
           onClick={onPress}
           options={options}>
           {this.props.children}
