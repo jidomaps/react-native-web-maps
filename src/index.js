@@ -52,17 +52,18 @@ class MapView extends Component {
   onMapViewChanged = () => {
     const { onRegionChangeComplete } = this.props;
 
+    const center = this.map.getCenter();
+    const zoom = this.map.getZoom();
+
     if (this.map && onRegionChangeComplete) {
-      const center = this.map.getCenter();
-      const zoom = this.map.getZoom();
       onRegionChangeComplete({
         lat: center.lat(),
         lng: center.lng(),
         zoom,
       });
-
-      this.setState({ center, zoom });
     }
+
+    this.setState({ center, zoom });
   };
 
   getMapComponent() {
@@ -102,10 +103,10 @@ class MapView extends Component {
           }}
           center={center}
           region={region}
+          zoom={zoom}
           onDragStart={onRegionChange}
           onDragEnd={this.onMapViewChanged}
           defaultZoom={defaultZoom}
-          zoom={zoom}
           onClick={onPress}
           options={options}>
           {this.props.children}
