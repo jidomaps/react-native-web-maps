@@ -65,6 +65,10 @@ class MapView extends Component {
     }
   };
 
+  getMapComponent() {
+    return this.map;
+  }
+
   componentDidMount() {
     console.log('Map View Mounted');
   }
