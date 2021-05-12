@@ -63,6 +63,14 @@ class MapView extends Component {
     }
   };
 
+  componentDidMount() {
+    console.log('Map View Mounted');
+  }
+
+  componentWillUnmount() {
+    console.log('Map View UN Mounted');
+  }
+
   render() {
     const { region, initialRegion, onRegionChange, onPress, options, defaultZoom } = this.props;
     const style = this.props.style || styles.container;
@@ -83,14 +91,13 @@ class MapView extends Component {
             lng: initialRegion.longitude,
           },
         };
-    // const zoom =
-    //   region && region.latitudeDelta
-    //     ? Math.round(Math.log(360 / region.latitudeDelta) / Math.LN2)
-    //     : initialRegion && initialRegion.latitudeDelta
-    //     ? Math.round(Math.log(360 / initialRegion.latitudeDelta) / Math.LN2)
-    //     : 15;
-    // const _zoom = this.map ? this.map.getZoom() : 15;
-    googleMapProps['zoom'] = this.state.zoom ? this.state.zoom : 15;
+    const zoom =
+      defaultZoom || (region && region.latitudeDelta)
+        ? Math.round(Math.log(360 / region.latitudeDelta) / Math.LN2)
+        : initialRegion && initialRegion.latitudeDelta
+        ? Math.round(Math.log(360 / initialRegion.latitudeDelta) / Math.LN2)
+        : 15;
+    googleMapProps['zoom'] = this.state.zoom ? this.state.zoom : zoom;
     return (
       <View style={style}>
         <GoogleMapContainer
@@ -98,12 +105,13 @@ class MapView extends Component {
           containerElement={<div style={{ height: '100%' }} />}
           mapElement={<div style={{ height: '100%' }} />}
           onZoomChanged={() => {
-            this.onDragEnd();
             this.setState({ zoom: this.map.getZoom() });
+            this.onDragEnd();
           }}
           {...googleMapProps}
           onDragStart={onRegionChange}
           onDragEnd={this.onDragEnd}
+          defaultZoom={defaultZoom}
           onClick={onPress}
           options={options}>
           {this.props.children}
