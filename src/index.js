@@ -65,15 +65,16 @@ class MapView extends Component {
   getBounds = () => this.map.getBounds();
 
   getViewportBounds = () => {
-    const _bounds = this.map.getBounds();
+    if (this.map !== null) {
+      const _bounds = this.map.getBounds();
 
-    if (_bounds !== null) {
-      return {
-        ne: _bounds.getNorthEast(),
-        sw: _bounds.getSouthWest(),
-      };
+      if (_bounds !== null) {
+        return {
+          ne: _bounds.getNorthEast(),
+          sw: _bounds.getSouthWest(),
+        };
+      }
     }
-
     return null;
   };
 
