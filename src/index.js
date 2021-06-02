@@ -14,17 +14,68 @@ class MapView extends Component {
     center: null,
   };
 
+  getMapComponent() {
+    return this.map;
+  }
+
   handleMapMounted = map => {
+    const { onMapReady } = this.props;
     this.map = map;
-    this.props.onMapReady && this.props.onMapReady();
+
+    if (onMapReady) {
+      onMapReady();
+    }
   };
 
-  getCamera = () => {
-    return {
-      zoom: this.map.getZoom(),
-      center: this.map.getCenter(),
-      heading: this.map.getHeading(),
-    };
+  onMapViewChanged = isMapPan => {
+    const { onRegionChangeComplete } = this.props;
+
+    let _center = {};
+
+    if (isMapPan) {
+      _center = this.map.getCenter();
+    }
+
+    const zoom = this.map.getZoom();
+
+    if (this.map && _center.lat && onRegionChangeComplete) {
+      onRegionChangeComplete(
+        {
+          latitude: _center.lat(),
+          longitude: _center.lng(),
+        },
+        zoom
+      );
+    }
+
+    this.setState({
+      center: _center,
+      zoom,
+    });
+  };
+
+  getCamera = () => ({
+    zoom: this.map.getZoom(),
+    center: this.map.getCenter(),
+    heading: this.map.getHeading(),
+  });
+
+  getBounds = () => this.map.getBounds();
+
+  getViewportBounds = () => {
+    const _bounds = this.map.getBounds();
+
+    console.log('Get bounds response');
+    console.log(this.map.getBounds());
+
+    if (_bounds !== null) {
+      return {
+        ne: _bounds.getNorthEast(),
+        sw: _bounds.getSouthWest(),
+      };
+    }
+
+    return null;
   };
 
   animateCamera(camera) {
@@ -32,85 +83,51 @@ class MapView extends Component {
     this.setState({ center: camera.center });
   }
 
+  // eslint-disable-next-line react/destructuring-assignment
   animateToRegion(coordinates, _zoom = this.state.zoom) {
-    this.map.panTo({ lat: coordinates.lat, lng: coordinates.lng });
-    this.setState({ zoom: _zoom });
-  }
-
-  getBounds = () => {
-    return this.map.getBounds();
-  };
-
-  getViewportBounds = () => {
-    const _bounds = this.map.getBounds();
-    return {
-      ne: _bounds.getNorthEast(),
-      sw: _bounds.getSouthWest(),
-    };
-  };
-
-  onMapViewChanged = () => {
-    const { onRegionChangeComplete } = this.props;
-
-    const center = this.map.getCenter();
-    const zoom = this.map.getZoom();
-
-    if (this.map && onRegionChangeComplete) {
-      onRegionChangeComplete({
-        lat: center.lat(),
-        lng: center.lng(),
-        zoom,
-      });
+    if (this.map) {
+      this.map.panTo({ lat: coordinates.lat, lng: coordinates.lng });
+      this.setState({ zoom: _zoom });
     }
-
-    this.setState({ center, zoom });
-  };
-
-  getMapComponent() {
-    return this.map;
-  }
-
-  componentDidMount() {
-    console.log('Map View Mounted');
-  }
-
-  componentWillUnmount() {
-    console.log('Map View UN Mounted');
   }
 
   render() {
     const {
-      region,
+      children,
       initialRegion,
       onRegionChange,
       onPress,
       options,
       defaultZoom,
-      zoom,
+      style,
     } = this.props;
-    const style = this.props.style || styles.container;
 
-    const { center } = this.state;
+    const { center, zoom } = this.state;
+
+    const _style = style || styles.container;
+
+    const mapProps = {
+      center,
+      zoom,
+    };
 
     return (
-      <View style={style}>
+      <View style={_style}>
         <GoogleMapContainer
           handleMapMounted={this.handleMapMounted}
           containerElement={<div style={{ height: '100%' }} />}
           mapElement={<div style={{ height: '100%' }} />}
           onZoomChanged={() => {
-            this.onMapViewChanged();
+            this.onMapViewChanged(false);
           }}
-          // center={center}
+          {...mapProps}
           initialRegion={initialRegion}
-          region={region}
-          zoom={zoom}
           onDragStart={onRegionChange}
-          onDragEnd={this.onMapViewChanged}
+          onDragEnd={() => this.onMapViewChanged(true)}
           defaultZoom={defaultZoom}
           onClick={onPress}
           options={options}>
-          {this.props.children}
+          {children}
         </GoogleMapContainer>
       </View>
     );
