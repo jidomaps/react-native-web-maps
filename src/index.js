@@ -10,6 +10,8 @@ const GoogleMapContainer = withGoogleMap(props => (
 ));
 
 class MapView extends Component {
+  map = null;
+
   state = {
     center: null,
   };
@@ -38,7 +40,7 @@ class MapView extends Component {
 
     const zoom = this.map.getZoom();
 
-    if (this.map && _center.lat && onRegionChangeComplete) {
+    if (this.map !== null && _center.lat && onRegionChangeComplete) {
       onRegionChangeComplete(
         {
           latitude: _center.lat(),
@@ -66,7 +68,7 @@ class MapView extends Component {
     const _bounds = this.map.getBounds();
 
     console.log('Get bounds response');
-    console.log(this.map.getBounds());
+    console.log(this.map?.getBounds());
 
     if (_bounds !== null) {
       return {
@@ -85,7 +87,7 @@ class MapView extends Component {
 
   // eslint-disable-next-line react/destructuring-assignment
   animateToRegion(coordinates, _zoom = this.state.zoom) {
-    if (this.map) {
+    if (this.map !== null) {
       this.map.panTo({ lat: coordinates.lat, lng: coordinates.lng });
       this.setState({ zoom: _zoom });
     }
