@@ -67,9 +67,6 @@ class MapView extends Component {
   getViewportBounds = () => {
     const _bounds = this.map.getBounds();
 
-    console.log('Get bounds response');
-    console.log(this.map?.getBounds());
-
     if (_bounds !== null) {
       return {
         ne: _bounds.getNorthEast(),
